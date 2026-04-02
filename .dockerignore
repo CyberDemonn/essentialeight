@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Dev database (Docker uses a volume instead)
+e8_tool.db
+
+# Frontend build output and dev dependencies
+frontend/node_modules/
+frontend/dist/
+
+# Dev/test artefacts
+.env
+*.log
+/tmp/
+
+# Git and IDE
+.git/
+.gitignore
+.claude/
+
+# Docker files themselves (not needed in build context)
+Dockerfile*
+docker-compose.yml

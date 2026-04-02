@@ -1,0 +1,46 @@
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    restart: unless-stopped
+    environment:
+      E8_SECRET_KEY: ${E8_SECRET_KEY:-change-me-in-production}
+      E8_ADMIN_PASSWORD: ${E8_ADMIN_PASSWORD:-admin}
+      E8_DB_PATH: /app/data/e8_tool.db
+    volumes:
+      # Persist the SQLite database across container restarts
+      - e8_data:/app/data
+    networks:
+      - e8_net
+    # Exposed to host for testing — remove the ports mapping and keep only expose in production
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    restart: unless-stopped
+    ports:
+      # Expose the dashboard on port 80 (change to "443:443" when adding TLS)
+      - "80:80"
+    networks:
+      - e8_net
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  e8_data:
+    driver: local
+
+networks:
+  e8_net:
+    driver: bridge
