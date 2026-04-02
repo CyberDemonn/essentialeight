@@ -127,13 +127,86 @@ Each control is assessed independently across all three supported platforms. The
 
 ---
 
-## Installation
+## Docker Installation (Recommended)
+
+The easiest way to run the full stack. Requires [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/CyberDemonn/essentialeight.git
+cd essentialeight
+```
+
+### 2. Configure environment
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and set secure values:
+
+```env
+E8_SECRET_KEY=your-long-random-secret-key
+E8_ADMIN_PASSWORD=your-secure-password
+```
+
+Generate a strong secret key with:
+
+```bash
+python3 -c "import secrets; print(secrets.token_hex(32))"
+```
+
+### 3. Build and start
+
+```bash
+docker-compose up -d --build
+```
+
+This starts two containers:
+- **backend** — FastAPI on port 8000 (internal only)
+- **frontend** — Nginx serving the React dashboard on port 80
+
+### 4. Open the dashboard
+
+Navigate to **http://localhost** and log in with:
+- **Username:** `admin`
+- **Password:** the value you set in `.env` (default: `admin`)
+
+### Common Docker commands
+
+```bash
+# View logs
+docker-compose logs -f backend
+docker-compose logs -f frontend
+
+# Stop
+docker-compose down
+
+# Rebuild after code changes
+docker-compose up -d --build
+
+# Reset everything (WARNING: deletes all assessment data)
+docker-compose down -v
+```
+
+### Persistent data
+
+Assessment data is stored in a Docker volume (`e8_data`) mapped to `/app/data/e8_tool.db` inside the backend container. It survives container restarts. To back it up:
+
+```bash
+docker cp $(docker-compose ps -q backend):/app/data/e8_tool.db ./e8_backup.db
+```
+
+---
+
+## Manual Installation
 
 ### 1. Clone and set up the backend
 
 ```bash
-git clone <repo-url>
-cd e8-tool
+git clone https://github.com/CyberDemonn/essentialeight.git
+cd essentialeight
 pip3 install -r requirements.txt
 ```
 
