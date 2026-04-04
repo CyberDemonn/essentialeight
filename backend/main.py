@@ -18,7 +18,7 @@ from backend.auth import (
 )
 from backend.database import get_db, init_db
 from backend import models
-from backend.routers import assessments, machines, reports
+from backend.routers import assessments, machines, reports, users
 
 app = FastAPI(
     title="Essential Eight Compliance Tool",
@@ -37,6 +37,7 @@ app.add_middleware(
 app.include_router(assessments.router)
 app.include_router(machines.router)
 app.include_router(reports.router)
+app.include_router(users.router)
 
 
 @app.on_event("startup")
