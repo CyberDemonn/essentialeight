@@ -24,3 +24,6 @@ frontend/dist/
 
 # Docker volumes
 data/
+
+# Claude Code tooling
+.claude/
