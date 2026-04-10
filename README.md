@@ -284,11 +284,16 @@ This produces two files:
 
 ```bash
 # Get a token first
-TOKEN=$(curl -s -X POST http://localhost:8000/api/auth/token \
+# Note: use port 80 (nginx) not 8000 — port 8000 is internal to Docker
+TOKEN=$(curl -s -X POST http://localhost/api/auth/token \
+  -H "Content-Type: application/x-www-form-urlencoded" \
   -d "username=admin&password=admin" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
 
+# Verify the token was captured
+echo $TOKEN
+
 # Run the agent
-sudo python3 agent/e8_agent.py --server http://localhost:8000 --api-key "$TOKEN"
+sudo python3 agent/e8_agent.py --server http://localhost --api-key "$TOKEN"
 ```
 
 ### Upload a standalone report to the dashboard
@@ -296,7 +301,7 @@ sudo python3 agent/e8_agent.py --server http://localhost:8000 --api-key "$TOKEN"
 If a machine has no network path to the server, upload the JSON file via the dashboard sidebar ("Upload Report") or via API:
 
 ```bash
-curl -X POST http://localhost:8000/api/assessments/upload \
+curl -X POST http://localhost/api/assessments/upload \
   -H "Authorization: Bearer <token>" \
   -F "file=@/tmp/e8_report.json"
 ```
