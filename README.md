@@ -132,7 +132,7 @@ Each control is assessed independently across all three supported platforms. The
 ### 1. Clone and set up the backend
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/CyberDemonn/essentialeight.git
 cd e8-tool
 pip3 install -r requirements.txt
 ```
