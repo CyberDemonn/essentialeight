@@ -206,7 +206,7 @@ docker cp $(docker-compose ps -q backend):/app/data/e8_tool.db ./e8_backup.db
 
 ```bash
 git clone https://github.com/CyberDemonn/essentialeight.git
-cd essentialeight
+cd e8-tool
 pip3 install -r requirements.txt
 ```
 

@@ -89,3 +89,35 @@ export async function getDashboardSummary() {
 export function reportHtmlUrl(assessmentId: number) {
   return `/api/reports/${assessmentId}/html`
 }
+
+// ── Auth (extended) ───────────────────────────────────────────────────────────
+
+export async function changePassword(currentPassword: string, newPassword: string) {
+  const { data } = await api.post('/auth/change-password', {
+    current_password: currentPassword,
+    new_password: newPassword,
+  })
+  return data
+}
+
+// ── Users ─────────────────────────────────────────────────────────────────────
+
+export interface UserRecord {
+  id: number
+  username: string
+  created_at: string
+}
+
+export async function listUsers(): Promise<UserRecord[]> {
+  const { data } = await api.get('/users/')
+  return data
+}
+
+export async function createUser(username: string, password: string): Promise<UserRecord> {
+  const { data } = await api.post('/users/', { username, password })
+  return data
+}
+
+export async function deleteUser(userId: number): Promise<void> {
+  await api.delete(`/users/${userId}`)
+}

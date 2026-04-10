@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { ShieldCheck, LayoutDashboard, Monitor, LogOut, Upload } from 'lucide-react'
+import { ShieldCheck, LayoutDashboard, Monitor, LogOut, Upload, Users, Settings } from 'lucide-react'
 import { useRef } from 'react'
 import { uploadReport } from '../api'
 
@@ -50,6 +50,12 @@ export default function Layout() {
           </NavLink>
           <NavLink to="/machines" className={navClass}>
             <Monitor size={18} /> Machines
+          </NavLink>
+          <NavLink to="/users" className={navClass}>
+            <Users size={18} /> User Management
+          </NavLink>
+          <NavLink to="/settings" className={navClass}>
+            <Settings size={18} /> Settings
           </NavLink>
         </nav>
 
